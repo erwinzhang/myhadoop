@@ -41,9 +41,14 @@ public class JobSubmitter {
         FileInputFormat.setInputPaths(jobConf, new Path("/"));
 
         FileOutputFormat.setOutputPath(jobConf, new Path("/out.txt"));
+        j.setPartitionerClass(ProvincePartioner.class);
+        j.setNumReduceTasks(5);
 
         boolean res = j.waitForCompletion(true);
         System.exit(res? 0:1);
+
+        //How to run: hadoop jar myhadoop.jar, it will set classpath automatically
+
     }
 
 
