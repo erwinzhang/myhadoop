@@ -23,9 +23,14 @@ import java.io.IOException;
 public class JobSubmitter {
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
+
+        conf.set("mapreduce.framewok.name","local"); // Set to local run
+
         Job j = Job.getInstance(conf);
 
-        j.setJar("/root/myhadoop.jar");
+//        j.setJar("/root/myhadoop.jar");
+
+        j.setJarByClass(JobSubmitter.class);
         j.setMapperClass(PvMapper.class);
         j.setReducerClass(PvReducer.class);
 
@@ -45,10 +50,10 @@ public class JobSubmitter {
         j.setNumReduceTasks(5);
 
         boolean res = j.waitForCompletion(true);
+
         System.exit(res? 0:1);
 
         //How to run: hadoop jar myhadoop.jar, it will set classpath automatically
-
     }
 
 
